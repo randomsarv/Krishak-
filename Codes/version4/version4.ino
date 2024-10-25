@@ -1,5 +1,3 @@
-// this version also includes the provision for the esp32 to sleep for 30 mintues as to prevent heating or other power related issues 
-
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ThingSpeak.h>
@@ -11,8 +9,11 @@ const char* ssid = "Dlink";
 const char* password = "Cidi@1234";
 
 // ThingSpeak settings
-const char* myChannelNumber = "YOUR_CHANNEL_ID"; 
+const char* myChannelNumber = "YOUR_CHANNEL_ID";
 const char* myWriteAPIKey = "YOUR_API_KEY";
+
+// Google Sheets script URL
+const char* googleScriptUrl = "https://script.google.com/macros/s/AKfycbzoO_SOCkgTWcRVDM7_ThDG_eycGDlhuo1HPiPf3dfIbadwagZb8D8ltpmMWCrAXpwH7g/exec?apiKey=sWs3PQl051D7WtKBYSzpdQV591YZEErV";
 
 // Soil moisture sensor pin (Analog pin)
 const int moistureSensorPin = 32;  // ADC pin for soil moisture sensor
@@ -60,8 +61,11 @@ void setup() {
 
   controlWatering(moistureValue);
   
-  // Log the data to ThingSpeak (optional)
+  // Log the data to ThingSpeak
   sendDataToThingSpeak(moistureValue);
+
+  // Log the data to Google Sheets
+  sendDataToGoogleScript(moistureValue);
 
   // Go to deep sleep for the set interval
   Serial.println("Going to sleep now for 30 minutes...");
@@ -109,6 +113,27 @@ void sendDataToThingSpeak(int moistureValue) {
   } else {
     Serial.print("Problem sending data. HTTP error code: ");
     Serial.println(response);
+  }
+}
+
+// Function to send data to Google Sheets through Google Script
+void sendDataToGoogleScript(int moistureValue) {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    String url = String(googleScriptUrl) + "&moisture=" + String(moistureValue);
+    http.begin(url);
+    int httpResponseCode = http.GET();
+
+    if (httpResponseCode > 0) {
+      Serial.print("Google Script response: ");
+      Serial.println(http.getString());
+    } else {
+      Serial.print("Error sending data to Google Sheets: ");
+      Serial.println(httpResponseCode);
+    }
+    http.end();
+  } else {
+    Serial.println("Wi-Fi not connected");
   }
 }
 
