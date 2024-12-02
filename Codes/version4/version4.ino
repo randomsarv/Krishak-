@@ -1,6 +1,6 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <ThingSpeak.h>
+
 #include <WiFiUdp.h>
 #include <NTPClient.h>
 
@@ -8,12 +8,11 @@
 const char* ssid = "Dlink";
 const char* password = "Cidi@1234";
 
-// ThingSpeak settings
-const char* myChannelNumber = "YOUR_CHANNEL_ID";
-const char* myWriteAPIKey = "YOUR_API_KEY";
 
 // Google Sheets script URL
-const char* googleScriptUrl = "https://script.google.com/macros/s/AKfycbzoO_SOCkgTWcRVDM7_ThDG_eycGDlhuo1HPiPf3dfIbadwagZb8D8ltpmMWCrAXpwH7g/exec?apiKey=sWs3PQl051D7WtKBYSzpdQV591YZEErV";
+const String API_KEY = "sWs3PQl051D7WtKBYSzpdQV591YZEErV";
+const String DEVICE_ID = "device123";
+const char* googleScriptUrl = "https://script.google.com/macros/s/AKfycbzoO_SOCkgTWcRVDM7_ThDG_eycGDlhuo1HPiPf3dfIbadwagZb8D8ltpmMWCrAXpwH7g/exec";
 
 // Soil moisture sensor pin (Analog pin)
 const int moistureSensorPin = 32;  // ADC pin for soil moisture sensor
