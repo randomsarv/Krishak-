@@ -1,6 +1,6 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
-
+#include <ThingSpeak.h>
 #include <WiFiUdp.h>
 #include <NTPClient.h>
 

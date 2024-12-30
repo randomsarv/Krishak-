@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../../.."
+		},
+		{
+			"name": "Krishak",
+			"path": "../../../MicroControllers/Web_socket_for_ESP32/Krishak"
+		},
+		{
+			"name": "version5_grooth",
+			"path": "../../../../PlatformIO/Projects/version5_grooth"
+		}
+	],
+	"settings": {}
+}
